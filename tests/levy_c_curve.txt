@@ -1,0 +1,10 @@
+
+; Levy C Kurve
+
+recursion = 9
+winkel   = 45
+
+r = F
+
+0: B = r
+1: r = +r--r+

@@ -1,0 +1,22 @@
+
+recursion = 6
+
+winkel   = 27
+
+r = F
+s = F
+
+0: BASE = ++++ s
+1: s    = r[+s]r[-s]+s
+1: r    = r r
+
+;1: r = r r-[-r+r+r]+[+r-r-r]
+;0: BASE = ++++ r
+;1: r   =  r [+r]r[-r][r]
+;0: BASE = ++++ r
+;1: r   =  r r-[-r+r+r]+[+r-r-r]
+;r=F
+;s=F
+;0: BASE = ++++ s
+;1: s    = r[+s]r[-s]+s
+;1: r    = r r

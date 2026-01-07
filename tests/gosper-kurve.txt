@@ -1,0 +1,16 @@
+
+; Gosper Kurve
+; F = R oder F = L
+; R = R+L++L-R--RR-L+
+; L = -R+LL++L+R--R-L
+
+recursion = 3
+winkel   = 60
+
+R = F
+L = F
+
+0: BASE = L
+1: R = R+L++L-R--RR-L+
+1: L = -R+LL++L+R--R-L 
+

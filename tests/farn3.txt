@@ -1,0 +1,8 @@
+; D.Pfeifle 2010-11-06
+
+angle = 28.5
+initialangle = -30.0
+recursion = 5
+r = F
+0: B = ++++r-rr++r
+1: r = r[+r]r[-r][r]

@@ -1,0 +1,12 @@
+
+; Drachenkurve, siehe http://de.wikipedia.org/wiki/Drachenkurve
+
+recursion = 8
+winkel   = 45
+
+R = F
+L = F
+
+0: B = R
+1: R = +R--L+
+1: L = -R++L-

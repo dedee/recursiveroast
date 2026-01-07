@@ -1,0 +1,14 @@
+
+; ??
+
+
+
+recursion = 2
+initialangle = 30
+
+winkel = 90
+l=F
+r=F
+0: BASE = l
+1: l = l l+r+r-l-l+r+r l-r-l l r+l-r-l l-r+l r+r+l-l-r r+
+1: r = -l l+r+r-l-l r-l+r r+l+r-l r r+l+r l-l-r+r+l-l-r r

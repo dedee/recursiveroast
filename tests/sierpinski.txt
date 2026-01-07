@@ -1,0 +1,13 @@
+
+; Sierpinski Dreieck
+
+recursion = 5
+winkel   = 60
+
+R = F
+L = F
+
+0: B = L
+1: L = R+L+R
+1: R = L-R-L
+

@@ -1,0 +1,12 @@
+
+; FASS CURVE
+
+recursion = 3
+winkel   = 60
+
+l=F
+r=F
+0: BASE = l
+1: l = l+r++r-l--l l-r+
+1: r = -l+r r++r+l--l-r
+

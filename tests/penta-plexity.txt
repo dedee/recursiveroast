@@ -1,0 +1,15 @@
+
+; Penta Plexity
+
+; F++F++F++F++F
+; F = F++F++F|F-F++F
+
+recursion = 2
+winkel = 36
+
+R = F
+
+0 : BASE = R++R++R++R++R
+1 : R = R++R++R|R-R++R
+
+ 

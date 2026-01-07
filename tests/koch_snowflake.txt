@@ -1,0 +1,11 @@
+
+; Koch Schneeflocke
+
+recursion = 3
+winkel   = 60
+
+a = F
+
+0: BASE = a -- a -- a
+1: a    = a + a -- a + a
+
