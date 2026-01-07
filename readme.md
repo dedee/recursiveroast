@@ -1,11 +1,14 @@
-
-
 # Wopper3
 
 (C)opyright D.Pfeifle 2010-10-21
 
+
+![Screenshot](Screenshot1.png)
+
 See http://de.wikipedia.org/wiki/Fraktal for details.
 The L-System is described here in more detail:
+
+
 
 Example:
 
@@ -30,5 +33,4 @@ f  Move
    [  Push pos to stack
    ]  Pop pos from stack
 ```
-
 
