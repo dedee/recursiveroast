@@ -1,6 +1,6 @@
-package org.dedee.wopper3.tests;
+package org.dedee.wopper2.tests;
 
-import org.dedee.wopper3.WopperModel;
+import org.dedee.wopper2.WopperModel;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;

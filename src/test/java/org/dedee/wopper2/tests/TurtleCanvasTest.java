@@ -1,9 +1,9 @@
-package org.dedee.wopper3.tests;
+package org.dedee.wopper2.tests;
 
-import org.dedee.wopper3.Cmd;
-import org.dedee.wopper3.Commands;
-import org.dedee.wopper3.ui.TurtleCanvas;
-import org.dedee.wopper3.ui.WopperTurtleModel;
+import org.dedee.wopper2.Cmd;
+import org.dedee.wopper2.Commands;
+import org.dedee.wopper2.ui.TurtleCanvas;
+import org.dedee.wopper2.ui.WopperTurtleModel;
 
 import java.awt.*;
 import java.awt.event.WindowAdapter;

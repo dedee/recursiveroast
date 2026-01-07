@@ -1,8 +1,8 @@
-package org.dedee.wopper3.tests;
+package org.dedee.wopper2.tests;
 
-import org.dedee.wopper3.CmdList;
-import org.dedee.wopper3.CmdReplacement;
-import org.dedee.wopper3.Commands;
+import org.dedee.wopper2.CmdList;
+import org.dedee.wopper2.CmdReplacement;
+import org.dedee.wopper2.Commands;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

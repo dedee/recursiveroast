@@ -1,4 +1,4 @@
-package org.dedee.wopper3;
+package org.dedee.wopper2;
 
 public class Cmd {
 

@@ -11,7 +11,7 @@ repositories {
 }
 
 application {
-    mainClass = 'org.dedee.wopper3.ui.TurtleGraphics'
+    mainClass = 'org.dedee.wopper2.ui.TurtleGraphics'
 }
 
 dependencies {

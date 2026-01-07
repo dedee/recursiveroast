@@ -1,6 +1,6 @@
-package org.dedee.wopper3.ui;
+package org.dedee.wopper2.ui;
 
-import org.dedee.wopper3.Commands;
+import org.dedee.wopper2.Commands;
 
 import java.awt.geom.GeneralPath;
 import java.util.Stack;

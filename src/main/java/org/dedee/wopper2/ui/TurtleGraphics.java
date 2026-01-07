@@ -1,9 +1,9 @@
-package org.dedee.wopper3.ui;
+package org.dedee.wopper2.ui;
 
-import org.dedee.wopper3.Cmd;
-import org.dedee.wopper3.CmdList;
-import org.dedee.wopper3.WopperEngine;
-import org.dedee.wopper3.WopperModel;
+import org.dedee.wopper2.Cmd;
+import org.dedee.wopper2.CmdList;
+import org.dedee.wopper2.WopperEngine;
+import org.dedee.wopper2.WopperModel;
 
 import java.awt.*;
 import java.awt.event.WindowAdapter;

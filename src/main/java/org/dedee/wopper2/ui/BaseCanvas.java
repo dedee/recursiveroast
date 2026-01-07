@@ -1,4 +1,4 @@
-package org.dedee.wopper3.ui;
+package org.dedee.wopper2.ui;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

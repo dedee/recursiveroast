@@ -1,4 +1,4 @@
-package org.dedee.wopper3.ui;
+package org.dedee.wopper2.ui;
 
 public interface WopperTurtleModel {
     double getDegrees();
