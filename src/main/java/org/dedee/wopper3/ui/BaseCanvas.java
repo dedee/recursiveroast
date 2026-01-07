@@ -1,68 +1,63 @@
 package org.dedee.wopper3.ui;
 
-import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 
+
 public abstract class BaseCanvas extends Canvas {
-	private static final long serialVersionUID = -8418058776331763129L;
 
-	public abstract void paint(GeneralPath gp);
 
-	public abstract void paintLSystemText(Graphics2D g2);
+    public abstract void paint(GeneralPath gp);
 
-	public abstract void paintRecursionLevel(Graphics2D g2);
+    public abstract void paintLSystemText(Graphics2D g2);
 
-	public void paint(Graphics g) {
-		Graphics2D g2 = (Graphics2D) g;
+    public abstract void paintRecursionLevel(Graphics2D g2);
 
-		RenderingHints qualityHints = new RenderingHints(
-				RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
-		qualityHints.put(RenderingHints.KEY_RENDERING,
-				RenderingHints.VALUE_RENDER_QUALITY);
-		g2.setRenderingHints(qualityHints);
+    public void paint(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g;
 
-		g2.setColor(Color.lightGray);
-		paintLSystemText(g2);
-		paintRecursionLevel(g2);
-		g2.setColor(Color.black);
+        RenderingHints qualityHints = new RenderingHints(
+                RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+        qualityHints.put(RenderingHints.KEY_RENDERING,
+                RenderingHints.VALUE_RENDER_QUALITY);
+        g2.setRenderingHints(qualityHints);
 
-		GeneralPath gp = new GeneralPath();
-		gp.moveTo(0, 0);
-		paint(gp);
+        g2.setColor(Color.lightGray);
+        paintLSystemText(g2);
+        paintRecursionLevel(g2);
+        g2.setColor(Color.black);
 
-		// Resize to fit
-		Rectangle2D boundsPath = gp.getBounds2D();
-		Rectangle boundsCanvas = getBounds();
+        GeneralPath gp = new GeneralPath();
+        gp.moveTo(0, 0);
+        paint(gp);
 
-		double borderPerCent = 0.05;
-		double bx = boundsPath.getWidth() * borderPerCent;
-		double by = boundsPath.getHeight() * borderPerCent;
+        // Resize to fit
+        Rectangle2D boundsPath = gp.getBounds2D();
+        Rectangle boundsCanvas = getBounds();
 
-		double zoomX = boundsCanvas.getWidth()
-				/ (boundsPath.getWidth() + bx * 2);
-		double zoomY = boundsCanvas.getHeight()
-				/ (boundsPath.getHeight() + by * 2);
-		double zoom = Math.min(zoomX, zoomY);
+        double borderPerCent = 0.05;
+        double bx = boundsPath.getWidth() * borderPerCent;
+        double by = boundsPath.getHeight() * borderPerCent;
 
-		double dx = -boundsPath.getMinX() + bx;
-		double dy = -boundsPath.getMinY() + by;
+        double zoomX = boundsCanvas.getWidth()
+                / (boundsPath.getWidth() + bx * 2);
+        double zoomY = boundsCanvas.getHeight()
+                / (boundsPath.getHeight() + by * 2);
+        double zoom = Math.min(zoomX, zoomY);
 
-		gp.transform(AffineTransform.getTranslateInstance(dx, dy));
-		g2.scale(zoom, zoom);
-		g2.draw(gp);
-	}
+        double dx = -boundsPath.getMinX() + bx;
+        double dy = -boundsPath.getMinY() + by;
 
-	@Override
-	public Dimension getPreferredSize() {
-		return new Dimension(500, 400);
-	}
+        gp.transform(AffineTransform.getTranslateInstance(dx, dy));
+        g2.scale(zoom, zoom);
+        g2.draw(gp);
+    }
+
+    @Override
+    public Dimension getPreferredSize() {
+        return new Dimension(500, 400);
+    }
 }

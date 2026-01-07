@@ -13,57 +13,57 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestWopperEngine {
 
-	@Test
-	public void testSimple() throws Exception {
-		File file = TestWopperModel.createTempFile(TestWopperModel.SIMPLE);
-		WopperModel wpm = new WopperModel();
-		wpm.load(new BufferedReader(new FileReader(file)));
+    @Test
+    public void testSimple() throws Exception {
+        File file = TestWopperModel.createTempFile(TestWopperModel.SIMPLE);
+        WopperModel wpm = new WopperModel();
+        wpm.load(new BufferedReader(new FileReader(file)));
 
-		WopperEngine wpe = new WopperEngine(wpm);
+        WopperEngine wpe = new WopperEngine(wpm);
 
-		CmdList cl = wpe.normalize();
-		assertEquals("F", cl.toString());
+        CmdList cl = wpe.normalize();
+        assertEquals("F", cl.toString());
 
-		wpe.calculateNext();
-		cl = wpe.normalize();
-		assertEquals("F+F", cl.toString());
+        wpe.calculateNext();
+        cl = wpe.normalize();
+        assertEquals("F+F", cl.toString());
 
-		wpe.calculateNext();
-		cl = wpe.normalize();
-		assertEquals("F+F+F+F", cl.toString());
-	}
+        wpe.calculateNext();
+        cl = wpe.normalize();
+        assertEquals("F+F+F+F", cl.toString());
+    }
 
-	@Test
-	public void testKoch() throws Exception {
-		File file = TestWopperModel.createTempFile(TestWopperModel.KOCHDREIECK);
-		WopperModel wpm = new WopperModel();
-		wpm.load(new BufferedReader(new FileReader(file)));
+    @Test
+    public void testKoch() throws Exception {
+        File file = TestWopperModel.createTempFile(TestWopperModel.KOCHDREIECK);
+        WopperModel wpm = new WopperModel();
+        wpm.load(new BufferedReader(new FileReader(file)));
 
-		WopperEngine wpe = new WopperEngine(wpm);
+        WopperEngine wpe = new WopperEngine(wpm);
 
-		CmdList cl = wpe.normalize();
-		assertEquals("F", cl.toString());
+        CmdList cl = wpe.normalize();
+        assertEquals("F", cl.toString());
 
-		wpe.calculateNext();
-		cl = wpe.normalize();
-		assertEquals("F-F++F-F", cl.toString());
-	}
+        wpe.calculateNext();
+        cl = wpe.normalize();
+        assertEquals("F-F++F-F", cl.toString());
+    }
 
-	@Test
-	public void testDrake() throws Exception {
-		WopperModel wpm = new WopperModel();
-		wpm.load(new BufferedReader(new FileReader("tests/drachenkurve.txt")));
-		WopperEngine wpe = new WopperEngine(wpm);
+    @Test
+    public void testDrake() throws Exception {
+        WopperModel wpm = new WopperModel();
+        wpm.load(new BufferedReader(new FileReader("tests/drachenkurve.txt")));
+        WopperEngine wpe = new WopperEngine(wpm);
 
-		CmdList cl = wpe.normalize();
-		assertEquals("F", cl.toString());
+        CmdList cl = wpe.normalize();
+        assertEquals("F", cl.toString());
 
-		for (int i = 0; i < 5; i++)
-			wpe.calculateNext();
+        for (int i = 0; i < 5; i++)
+            wpe.calculateNext();
 
-		CmdList l = wpe.normalize();
-		System.out.println(l.length());
-		System.out.println(l);
-	}
+        CmdList l = wpe.normalize();
+        System.out.println(l.length());
+        System.out.println(l);
+    }
 
 }

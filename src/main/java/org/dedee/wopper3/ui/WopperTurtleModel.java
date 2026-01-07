@@ -1,15 +1,15 @@
 package org.dedee.wopper3.ui;
 
 public interface WopperTurtleModel {
-	public double getDegrees();
+    double getDegrees();
 
-	public int getNumberOfCommands();
+    int getNumberOfCommands();
 
-	public int getCommand(int index);
+    int getCommand(int index);
 
-	public String getLSystemAsString();
+    String getLSystemAsString();
 
-	public int getRecursionLevel();
+    int getRecursionLevel();
 
-	public double getInitialAngle();
+    double getInitialAngle();
 }
