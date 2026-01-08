@@ -1,6 +1,11 @@
 # Wopper2 - L-System Fractal Generator
 
-(C)opyright D.Pfeifle 1997
+(C)opyright D.Pfeifle 2010-2026
+
+```markdown
+[![Build](https://github.com/dedee/wopper2/actions/workflows/build.yml/badge.svg)](https://github.com/YOUR_USERNAME/wopper2/actions/workflows/build.yml)
+[![Release](https://github.com/dedee/wopper2/actions/workflows/release.yml/badge.svg)](https://github.com/YOUR_USERNAME/wopper2/actions/workflows/release.yml)
+```
 
 ![Screenshot](Screenshot1.png)
 
@@ -14,27 +19,6 @@ You can find more information about L-Systems on [Wikipedia](https://en.wikipedi
 
 The project uses Gradle as a build system.
 
-### Prerequisites
-
-*   Java Development Kit (JDK) 17 or higher
-
-### Build
-
-To build the project, run the following command in the root directory of the project:
-
-```bash
-./gradlew build
-```
-
-### Run
-
-To start the application, run the following command:
-
-```bash
-./gradlew run
-```
-
-The application will start and display a window with a graphical representation of an L-System. You can load different L-System files from the `tests` directory, adjust the recursion depth, and view the resulting fractals.
 
 ## L-System Syntax
 
@@ -66,3 +50,42 @@ The L-System rules are defined in text files with a simple syntax.
 |   `[` | Push the current position and angle to the stack |
 |   `]` | Restore the last position and angle from the stack |
 
+### Prerequisites
+
+*   Java Development Kit (JDK) 17 or higher
+
+### Build
+
+To build the project, run the following command in the root directory of the project:
+
+```bash
+./gradlew build
+```
+
+### Run
+
+To start the application, run the following command:
+
+```bash
+./gradlew run
+```
+
+The application will start and display a window with a graphical representation of an L-System. 
+You can load different L-System files, adjust the recursion depth, 
+and view the resulting fractals.
+
+## GitHub Actions
+
+This project includes GitHub Actions workflows for:
+
+- **Continuous Integration**: Automatically builds and tests the project on every push and pull request
+- **Release**: Automatically creates GitHub releases with compiled JAR files when you push a version tag (e.g., `v1.0.0`)
+
+
+### Creating a Release
+
+To create a release:
+```bash
+git tag v1.0.0
+git push origin v1.0.0
+```
