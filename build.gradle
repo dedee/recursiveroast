@@ -4,7 +4,24 @@ plugins {
 }
 
 group 'org.dedee'
-version '1.0-SNAPSHOT'
+
+// Get version from Git tag, fallback to 'dev' if no tag exists
+version = System.getenv('GITHUB_REF_NAME') ?: getVersionFromGit()
+
+def getVersionFromGit() {
+    try {
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'describe', '--tags', '--exact-match'
+            standardOutput = stdout
+            ignoreExitValue = true
+        }
+        def tag = stdout.toString().trim()
+        return tag.isEmpty() ? 'dev-SNAPSHOT' : tag.replaceFirst('^v', '')
+    } catch (Exception e) {
+        return 'dev-SNAPSHOT'
+    }
+}
 
 repositories {
     mavenCentral()
@@ -32,4 +49,6 @@ jar {
     manifest {
         attributes 'Main-Class': 'org.dedee.wopper2.ui.TurtleGraphics'
     }
+    archiveBaseName = 'wopper2'
+    archiveVersion = version
 }
