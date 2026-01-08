@@ -5,7 +5,7 @@
 ; L = -R+LL++L+R--R-L
 
 recursion = 3
-winkel   = 60
+angle   = 60
 
 R = F
 L = F

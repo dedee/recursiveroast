@@ -2,7 +2,7 @@
 ; Drachenkurve, siehe http://de.wikipedia.org/wiki/Drachenkurve
 
 recursion = 8
-winkel   = 45
+angle   = 45
 
 R = F
 L = F

@@ -42,13 +42,13 @@ The L-System rules are defined in text files with a simple syntax.
 ### Example
 
 ```
-winkel = 36
+angle = 36
 R = F
 0 : BASE = R++R++R++R++R
 1 : R = R++R++R|R-R++R
 ```
 
-- **winkel (angle)**: Defines the turning angle in degrees
+- **angle**: Defines the turning angle in degrees
 - **Constants**: Define a constant as a sequence of commands (e.g., `R = F`)
 - **Recursion level 0**: Defines the starting pattern (axiom)
 - **Recursion level n**: Defines the replacement rules for each recursion level

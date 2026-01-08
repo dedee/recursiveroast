@@ -2,7 +2,7 @@
 ; Sierpinski Dreieck
 
 recursion = 5
-winkel   = 60
+angle   = 60
 
 R = F
 L = F

@@ -2,8 +2,8 @@
 ; Farn: S.25,c
 
 recursion = 4
-;winkel   = 22.5
-winkel   = 27
+;angle   = 22.5
+angle   = 27
 
 r = F
 

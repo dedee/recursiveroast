@@ -2,7 +2,7 @@
 ; Koch
 
 recursion = 3
-winkel   = 60
+angle   = 60
 
 a = F
 

@@ -5,7 +5,7 @@
 ; F = F++F++F|F-F++F
 
 recursion = 2
-winkel = 36
+angle = 36
 
 R = F
 

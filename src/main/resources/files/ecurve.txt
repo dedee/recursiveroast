@@ -6,7 +6,7 @@
 recursion = 2
 initialangle = 30
 
-winkel = 90
+angle = 90
 l=F
 r=F
 0: BASE = l

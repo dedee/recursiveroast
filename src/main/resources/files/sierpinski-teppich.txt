@@ -4,7 +4,7 @@
 ; f = fff
 
 recursion = 2
-winkel = 90
+angle = 90
 
 R = F
 L = f

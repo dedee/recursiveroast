@@ -1,7 +1,7 @@
 
 recursion = 6
 
-winkel   = 27
+angle   = 27
 
 r = F
 s = F

@@ -2,7 +2,7 @@
 ; Levy C Kurve
 
 recursion = 9
-winkel   = 45
+angle   = 45
 
 r = F
 

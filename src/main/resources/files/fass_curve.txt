@@ -2,7 +2,7 @@
 ; FASS CURVE
 
 recursion = 3
-winkel   = 60
+angle   = 60
 
 l=F
 r=F
