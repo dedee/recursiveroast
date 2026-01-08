@@ -80,11 +80,30 @@ This project includes GitHub Actions workflows for:
 - **Continuous Integration**: Automatically builds and tests the project on every push and pull request
 - **Release**: Automatically creates GitHub releases with compiled JAR files when you push a version tag (e.g., `v1.0.0`)
 
-
 ### Creating a Release
 
 To create a release:
+
+1. Create and push a version tag:
 ```bash
 git tag v1.0.0
 git push origin v1.0.0
 ```
+
+2. The GitHub Actions workflow will automatically:
+   - Build the project
+   - Run all tests
+   - Create a GitHub release
+   - Attach the JAR file to the release
+   - Generate release notes
+
+**Note**: The workflow requires `contents: write` permission, which is now configured in the release workflow file.
+
+### Downloading Releases
+
+After a release is created, you can download the JAR file from the [Releases page](https://github.com/dedee/wopper2/releases) and run it with:
+
+```bash
+java -jar wopper2-1.0-SNAPSHOT.jar
+```
+
