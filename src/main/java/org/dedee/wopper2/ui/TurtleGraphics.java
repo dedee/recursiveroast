@@ -16,8 +16,8 @@ public class TurtleGraphics {
     static CmdList cmdList;
     static WopperModel wpm;
     static WopperEngine wpe;
-    static List<File> files;
-    static File actualFile;
+    static List<String> files;
+    static String actualFile;
     private static TurtleCanvas canvas;
     private static Choice choice;
     private static TextArea textArea;
@@ -40,14 +40,7 @@ public class TurtleGraphics {
         f.setLayout(layout);
 
         wpm = new WopperModel();
-        // load(files.get(0));
-        // wpm.load(new File("tests/drachenkurve.txt"));
-
         wpe = new WopperEngine(wpm);
-        // for (int i = 0; i < wpm.getRecursionDepth(); i++)
-        // wpe.calculateNext();
-        // cmdList = wpe.normalize();
-        // System.out.println("=> " + l);
 
         canvas = new TurtleCanvas(new WopperTurtleModel() {
             @Override
@@ -57,6 +50,7 @@ public class TurtleGraphics {
 
             @Override
             public int getNumberOfCommands() {
+                if (cmdList == null) return 0;
                 return cmdList.length();
             }
 
@@ -82,25 +76,13 @@ public class TurtleGraphics {
         });
         f.add(canvas, BorderLayout.CENTER);
 
-        // Button button = new Button("Next");
-        // button.addActionListener(new ActionListener() {
-        // @Override
-        // public void actionPerformed(ActionEvent arg0) {
-        // wpe.calculateNext();
-        // cmdList = wpe.normalize();
-        // canvas.repaint();
-        // }
-        // });
-        // f.add(button, BorderLayout.SOUTH);
-
         choice = new Choice();
-        for (File file : files)
-            choice.add(file.getPath());
+        for (String file : files)
+            choice.add(file);
         choice.addItemListener(e -> {
             System.out.println("Selected " + e);
             String filename = (String) e.getItem();
-            File f1 = new File(filename);
-            load(f1);
+            loadFile(filename);
         });
         Panel pn = new Panel(new FlowLayout());
 
@@ -109,7 +91,7 @@ public class TurtleGraphics {
             int index = files.indexOf(actualFile) - 1;
             if (index < 0)
                 index = files.size() - 1;
-            load(files.get(index));
+            loadFile(files.get(index));
         });
 
         Button btnNextFile = new Button(">");
@@ -117,7 +99,7 @@ public class TurtleGraphics {
             int index = files.indexOf(actualFile) + 1;
             if (index >= files.size())
                 index = 0;
-            load(files.get(index));
+            loadFile(files.get(index));
         });
 
         Button btnMinus = new Button("-");
@@ -145,60 +127,66 @@ public class TurtleGraphics {
         textArea.setPreferredSize(new Dimension(300, 200));
         east.add(textArea, BorderLayout.CENTER);
         Button refresh = new Button("Refresh");
-        refresh.addActionListener(ae -> load(textArea.getText()));
+        refresh.addActionListener(ae -> loadFromText(textArea.getText()));
         east.add(refresh, BorderLayout.SOUTH);
         f.add(east, BorderLayout.EAST);
 
         f.pack();
         f.setVisible(true);
 
-        load(files.get(0));
+        if (!files.isEmpty()) {
+            loadFile(files.get(0));
+        }
     }
 
-    private static List<File> listFiles() {
-        List<File> files = new ArrayList<>();
-        final File dir = new File("tests");
-        File[] listFiles = dir.listFiles();
-        if (listFiles != null) {
-            for (File f2 : listFiles) {
-                if (f2.isDirectory())
-                    continue;
-                files.add(f2);
+    private static List<String> listFiles() {
+        List<String> files = new ArrayList<>();
+        try (InputStream in = TurtleGraphics.class.getResourceAsStream("/files/index.txt")) {
+            if (in == null) {
+                System.err.println("Could not find /files/index.txt in resources");
+                return files;
             }
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    line = line.trim();
+                    if (!line.isEmpty()) {
+                        files.add(line);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading index.txt: " + e.getMessage());
         }
-
-        // String[] list = dir.list();
-        // for (String filename : list) {
-        // File f2 = new File(dir, filename);
-        // if (f2.isDirectory())
-        // continue;
-        // else
-        // files.add(f2);
-        // }
         return files;
     }
 
-    private static void load(File f) {
-        System.err.println("Loading " + f);
-        try {
-            BufferedReader in = new BufferedReader(new FileReader(f));
-            load(in);
-
-            actualFile = f;
-            if (choice != null)
-                choice.select(files.indexOf(f));
+    private static void loadFile(String filename) {
+        System.err.println("Loading " + filename);
+        try (InputStream in = TurtleGraphics.class.getResourceAsStream("/files/" + filename)) {
+            if (in == null) {
+                System.err.println("File not found in resources: " + filename);
+                return;
+            }
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
+                load(reader);
+                actualFile = filename;
+                if (choice != null) {
+                    choice.select(files.indexOf(filename));
+                }
+            }
         } catch (IOException e1) {
-            e1.printStackTrace();
+            System.err.println("Error loading file " + filename + ": " + e1.getMessage());
         }
     }
 
-    private static void load(String text) {
+    private static void loadFromText(String text) {
         System.err.println("Reloading from text..");
         try {
             BufferedReader in = new BufferedReader(new StringReader(text));
             load(in);
         } catch (IOException e1) {
-            e1.printStackTrace();
+            System.err.println("Error loading from text: " + e1.getMessage());
         }
     }
 
@@ -212,12 +200,10 @@ public class TurtleGraphics {
         for (int i = 0; i < wpm.getRecursionDepth(); i++)
             wpe.calculateNext();
 
-        // wpe.calculateNext();
         cmdList = wpe.normalize();
 
         if (canvas != null)
             canvas.repaint();
-
     }
 
 }

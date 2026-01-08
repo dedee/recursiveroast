@@ -52,7 +52,11 @@ public class TestWopperEngine {
     @Test
     public void testDrake() throws Exception {
         WopperModel wpm = new WopperModel();
-        wpm.load(new BufferedReader(new FileReader("tests/drachenkurve.txt")));
+        try (var in = getClass().getResourceAsStream("/files/drachenkurve.txt")) {
+            if (in != null) {
+                wpm.load(new BufferedReader(new java.io.InputStreamReader(in)));
+            }
+        }
         WopperEngine wpe = new WopperEngine(wpm);
 
         CmdList cl = wpe.normalize();

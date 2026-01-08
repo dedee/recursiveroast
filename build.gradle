@@ -27,3 +27,9 @@ java {
 test {
     useJUnitPlatform()
 }
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'org.dedee.wopper2.ui.TurtleGraphics'
+    }
+}

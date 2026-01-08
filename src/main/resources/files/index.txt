@@ -1,0 +1,17 @@
+drachenkurve.txt
+ecurve.txt
+farn.txt
+farn2.txt
+farn2_didi.txt
+farn3.txt
+fass_curve.txt
+gosper-kurve.txt
+koch.txt
+koch_snowflake.txt
+levy_c_curve.txt
+penta-plexity.txt
+sierpinski-teppich.txt
+sierpinski.txt
+stack_test.txt
+z_bug_penrose.txt
+
