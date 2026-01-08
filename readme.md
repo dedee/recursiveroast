@@ -1,15 +1,15 @@
-# Wopper2 - L-System Fractal Generator
+# RecursiveRoast - L-System Fractal Generator
 
-[![Build](https://github.com/dedee/wopper2/actions/workflows/build.yml/badge.svg)](https://github.com/dedee/wopper2/actions/workflows/build.yml)
-[![Release](https://github.com/dedee/wopper2/actions/workflows/release.yml/badge.svg)](https://github.com/dedee/wopper2/actions/workflows/release.yml)
+[![Build](https://github.com/dedee/recursiveroast/actions/workflows/build.yml/badge.svg)](https://github.com/dedee/recursiveroast/actions/workflows/build.yml)
+[![Release](https://github.com/dedee/recursiveroast/actions/workflows/release.yml/badge.svg)](https://github.com/dedee/recursiveroast/actions/workflows/release.yml)
 
 (C)opyright D.Pfeifle 2010-2026
 
 ![Screenshot](Screenshot1.png)
 
-## What is Wopper2?
+## What is RecursiveRoast?
 
-Wopper2 is a Java application that generates and displays fractal graphics based on L-Systems. L-Systems are a type of formal grammar that can be used to model the development of plants, fractals, and other complex structures.
+RecursiveRoast is a Java application that generates and displays fractal graphics based on L-Systems. L-Systems are a type of formal grammar that can be used to model the development of plants, fractals, and other complex structures.
 
 You can find more information about L-Systems on [Wikipedia](https://en.wikipedia.org/wiki/L-system).
 
@@ -78,11 +78,11 @@ The project includes several pre-defined L-Systems in the resources:
 
 ## Downloads
 
-Pre-built releases are available on the [Releases page](https://github.com/dedee/wopper2/releases).
+Pre-built releases are available on the [Releases page](https://github.com/dedee/recursiveroast/releases).
 
 Download a JAR file and run it with:
 ```bash
-java -jar wopper2-<version>.jar
+java -jar recursiveroast-<version>.jar
 ```
 
 ## Documentation

@@ -1,12 +1,12 @@
-# Building and Releasing Wopper2
+# Building and Releasing RecursiveRoast
 
-This document contains all instructions for building, releasing, and managing versions of the Wopper2 project.
+This document contains all instructions for building, releasing, and managing versions of the RecursiveRoast project.
 
 ## Version Management
 
 The project version is automatically determined from Git tags:
-- **With a Git tag** (e.g., `v1.0.0`): The JAR will be named `wopper2-1.0.0.jar`
-- **Without a Git tag**: The JAR will be named `wopper2-dev-SNAPSHOT.jar`
+- **With a Git tag** (e.g., `v1.0.0`): The JAR will be named `recursiveroast-1.0.0.jar`
+- **Without a Git tag**: The JAR will be named `recursiveroast-dev-SNAPSHOT.jar`
 
 This means you don't need to manually update the version in `build.gradle` - just create a Git tag and the version will be automatically extracted from it.
 
@@ -16,16 +16,16 @@ The version is automatically determined in `build.gradle`:
 
 1. **When running on GitHub Actions** (during a release):
    - Uses the `GITHUB_REF_NAME` environment variable
-   - Example: Tag `v1.0.0` → Version `1.0.0` → JAR name `wopper2-1.0.0.jar`
+   - Example: Tag `v1.0.0` → Version `1.0.0` → JAR name `recursiveroast-1.0.0.jar`
 
 2. **When building locally with a Git tag**:
    - Extracts version from `git describe --tags --exact-match`
    - Removes the `v` prefix from tags
-   - Example: Tag `v2.5.3` → Version `2.5.3` → JAR name `wopper2-2.5.3.jar`
+   - Example: Tag `v2.5.3` → Version `2.5.3` → JAR name `recursiveroast-2.5.3.jar`
 
 3. **When building without a Git tag** (development):
    - Falls back to `dev-SNAPSHOT`
-   - JAR name: `wopper2-dev-SNAPSHOT.jar`
+   - JAR name: `recursiveroast-dev-SNAPSHOT.jar`
 
 ### Testing locally
 
@@ -35,13 +35,13 @@ To test the version mechanism:
 # Build without a tag (development mode)
 ./gradlew clean build
 ls build/libs/
-# Output: wopper2-dev-SNAPSHOT.jar
+# Output: recursiveroast-dev-SNAPSHOT.jar
 
 # Create a tag and build
 git tag v1.2.3
 ./gradlew clean build
 ls build/libs/
-# Output: wopper2-1.2.3.jar
+# Output: recursiveroast-1.2.3.jar
 
 # Clean up the tag
 git tag -d v1.2.3
@@ -98,12 +98,12 @@ To start the application directly from source:
 After building, you can run the JAR file:
 
 ```bash
-java -jar build/libs/wopper2-<version>.jar
+java -jar build/libs/recursiveroast-<version>.jar
 ```
 
 For example:
 ```bash
-java -jar build/libs/wopper2-1.0.0.jar
+java -jar build/libs/recursiveroast-1.0.0.jar
 ```
 
 ## Creating a Release
@@ -126,7 +126,7 @@ java -jar build/libs/wopper2-1.0.0.jar
    - Build the project
    - Run all tests
    - Create a GitHub release
-   - Attach `wopper2-1.0.0.jar` to the release
+   - Attach `recursiveroast-1.0.0.jar` to the release
    - Generate release notes
 
 ### Method 2: Manual Release
@@ -144,7 +144,7 @@ java -jar build/libs/wopper2-1.0.0.jar
 3. **The JAR will be created with the version:**
    ```bash
    ls build/libs/
-   # Output: wopper2-1.0.0.jar
+   # Output: recursiveroast-1.0.0.jar
    ```
 
 4. **Push the tag (optional):**
@@ -210,14 +210,14 @@ This will trigger the release workflow again with the updated configuration.
 After a release is created on GitHub, you can:
 
 1. **Visit the Releases page:**
-   https://github.com/dedee/wopper2/releases
+   https://github.com/dedee/recursiveroast/releases
 
 2. **Download the JAR file:**
-   Look for `wopper2-<version>.jar` in the Assets section
+   Look for `recursiveroast-<version>.jar` in the Assets section
 
 3. **Run the downloaded JAR:**
    ```bash
-   java -jar wopper2-1.0.0.jar
+   java -jar recursiveroast-1.0.0.jar
    ```
 
 ## Troubleshooting

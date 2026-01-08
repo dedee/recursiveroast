@@ -28,7 +28,7 @@ repositories {
 }
 
 application {
-    mainClass = 'org.dedee.wopper2.ui.TurtleGraphics'
+    mainClass = 'org.dedee.recursiveroast.ui.TurtleGraphics'
 }
 
 dependencies {
@@ -47,8 +47,8 @@ test {
 
 jar {
     manifest {
-        attributes 'Main-Class': 'org.dedee.wopper2.ui.TurtleGraphics'
+        attributes 'Main-Class': 'org.dedee.recursiveroast.ui.TurtleGraphics'
     }
-    archiveBaseName = 'wopper2'
+    archiveBaseName = 'recursiveroast'
     archiveVersion = version
 }
