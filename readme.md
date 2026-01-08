@@ -5,19 +5,35 @@
 
 (C)opyright D.Pfeifle 2010-2026
 
-
 ![Screenshot](Screenshot1.png)
 
-## What is Wopper2
+## What is Wopper2?
 
-Wopper is a Java application that generates and displays fractal graphics based on L-Systems. L-Systems are a type of formal grammar that can be used to model the development of plants, fractals, and other complex structures.
+Wopper2 is a Java application that generates and displays fractal graphics based on L-Systems. L-Systems are a type of formal grammar that can be used to model the development of plants, fractals, and other complex structures.
 
 You can find more information about L-Systems on [Wikipedia](https://en.wikipedia.org/wiki/L-system).
 
-## How to build and run
+## Quick Start
 
-The project uses Gradle as a build system.
+### Prerequisites
 
+*   Java Development Kit (JDK) 17 or higher
+
+### Running the Application
+
+```bash
+./gradlew run
+```
+
+The application will display a window with a graphical representation of an L-System. You can load different L-System files, adjust the recursion depth, and view the resulting fractals.
+
+### Building
+
+```bash
+./gradlew build
+```
+
+📖 **For detailed build and release instructions**, see [BUILD_AND_RELEASE.md](BUILD_AND_RELEASE.md)
 
 ## L-System Syntax
 
@@ -26,84 +42,58 @@ The L-System rules are defined in text files with a simple syntax.
 ### Example
 
 ```
-(1) winkel = 36
-(2) R = F
-(3) 0 : BASE = R++R++R++R++R
-(4) 1 : R = R++R++R|R-R++R
+winkel = 36
+R = F
+0 : BASE = R++R++R++R++R
+1 : R = R++R++R|R-R++R
 ```
 
-1.  **winkel (angle)**: Defines the turning angle in degrees.
-2.  **Constants**: Defines a constant as a sequence of commands.
-3.  **Recursion level 0**: Defines the starting pattern (axiom).
-4.  **Recursion level n**: Defines the replacement rules for the next recursion level.
+- **winkel (angle)**: Defines the turning angle in degrees
+- **Constants**: Define a constant as a sequence of commands (e.g., `R = F`)
+- **Recursion level 0**: Defines the starting pattern (axiom)
+- **Recursion level n**: Defines the replacement rules for each recursion level
 
 ### Commands
 
 | Command | Description                               |
-| :---: | ------------------------------------------ |
-|   `F` | Draw a line forward                        |
-|   `f` | Move forward without drawing               |
-|   `+` | Turn right by the defined angle            |
-|   `-` | Turn left by the defined angle             |
-|   `|` | Turn 180 degrees                           |
-|   `[` | Push the current position and angle to the stack |
-|   `]` | Restore the last position and angle from the stack |
+| :-----: | ----------------------------------------- |
+|   `F`   | Draw a line forward                       |
+|   `f`   | Move forward without drawing              |
+|   `+`   | Turn right by the defined angle           |
+|   `-`   | Turn left by the defined angle            |
+|   `|`   | Turn 180 degrees                          |
+|   `[`   | Push current position to stack            |
+|   `]`   | Pop position from stack                   |
 
-### Prerequisites
+## Included L-System Examples
 
-*   Java Development Kit (JDK) 17 or higher
+The project includes several pre-defined L-Systems in the resources:
 
-### Build
+- **Koch Snowflake** - Classic fractal curve
+- **Sierpinski Triangle** - Triangular fractal pattern
+- **Dragon Curve** - Space-filling curve
+- **Gosper Curve** - Hexagonal space-filling curve
+- **Fern** - Plant-like fractal structures
+- And many more...
 
-To build the project, run the following command in the root directory of the project:
+## Downloads
 
+Pre-built releases are available on the [Releases page](https://github.com/dedee/wopper2/releases).
+
+Download a JAR file and run it with:
 ```bash
-./gradlew build
+java -jar wopper2-<version>.jar
 ```
 
-### Run
+## Documentation
 
-To start the application, run the following command:
+- 📖 [BUILD_AND_RELEASE.md](BUILD_AND_RELEASE.md) - Detailed build, release, and version management instructions
 
-```bash
-./gradlew run
-```
+## License
 
-The application will start and display a window with a graphical representation of an L-System. 
-You can load different L-System files, adjust the recursion depth, 
-and view the resulting fractals.
+Copyright (C) D.Pfeifle 2010-2026
 
-## GitHub Actions
+## Contributing
 
-This project includes GitHub Actions workflows for:
-
-- **Continuous Integration**: Automatically builds and tests the project on every push and pull request
-- **Release**: Automatically creates GitHub releases with compiled JAR files when you push a version tag (e.g., `v1.0.0`)
-
-### Creating a Release
-
-To create a release:
-
-1. Create and push a version tag:
-```bash
-git tag v1.0.0
-git push origin v1.0.0
-```
-
-2. The GitHub Actions workflow will automatically:
-   - Build the project
-   - Run all tests
-   - Create a GitHub release
-   - Attach the JAR file to the release
-   - Generate release notes
-
-**Note**: The workflow requires `contents: write` permission, which is now configured in the release workflow file.
-
-### Downloading Releases
-
-After a release is created, you can download the JAR file from the [Releases page](https://github.com/dedee/wopper2/releases) and run it with:
-
-```bash
-java -jar wopper2-1.0-SNAPSHOT.jar
-```
+Contributions are welcome! Feel free to open issues or submit pull requests.
 
