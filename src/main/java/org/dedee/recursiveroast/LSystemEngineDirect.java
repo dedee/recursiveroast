@@ -7,15 +7,15 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 /**
- * Standard L-System engine using byte[] for command storage.
- * Optimized for typical use-cases with < 100K commands.
+ * L-System engine using DirectByteBuffer for command storage.
+ * Optimized for extreme use-cases with > 100K commands (reduced GC pressure).
  */
-public class LSystemEngine extends AbstractLSystemEngine {
-    private static final Logger logger = LoggerFactory.getLogger(LSystemEngine.class);
+public class LSystemEngineDirect extends AbstractLSystemEngine {
+    private static final Logger logger = LoggerFactory.getLogger(LSystemEngineDirect.class);
 
-    private CmdList value;
+    private CmdListDirect value;
 
-    public LSystemEngine(@NotNull LSystemModel model) {
+    public LSystemEngineDirect(@NotNull LSystemModel model) {
         super(model);
         reset();
     }
@@ -24,12 +24,17 @@ public class LSystemEngine extends AbstractLSystemEngine {
     protected void reset() {
         recursionLevel = 0;
         if (model.getRecursionData(0) != null)
-            value = new CmdList(model.getRecursionData(0).get(0).getWith());
+            value = new CmdListDirect(model.getRecursionData(0).get(0).getWith());
     }
 
     @Override
     protected void applyReplacements(List<CmdReplacement> replacements) {
+        CmdListDirect oldValue = value;
         value = value.replace(replacements);
+        // Clean up old direct buffer
+        if (oldValue != null) {
+            oldValue.dispose();
+        }
     }
 
     @Override
@@ -37,12 +42,12 @@ public class LSystemEngine extends AbstractLSystemEngine {
     public NormalizedResult normalize() {
         if (value == null) {
             // Return empty result
-            return new CmdListResult(new CmdList(0));
+            return new CmdListDirectResult(new CmdListDirect(0));
         }
 
         // Pre-calculate better capacity estimate to avoid reallocations
         int estimatedSize = (int) (value.length() * 1.2);
-        CmdList newList = new CmdList(estimatedSize);
+        CmdListDirect newList = new CmdListDirect(estimatedSize);
 
         for (int i = 0; i < value.length(); i++) {
             int cmd = value.get(i);
@@ -57,16 +62,16 @@ public class LSystemEngine extends AbstractLSystemEngine {
         }
 
         logger.debug("Normalized command list: {}", newList);
-        return new CmdListResult(newList);
+        return new CmdListDirectResult(newList);
     }
 
     /**
-     * Wrapper for CmdList to implement NormalizedResult interface.
+     * Wrapper for CmdListDirect to implement NormalizedResult interface.
      */
-    private static class CmdListResult implements NormalizedResult {
-        private final CmdList cmdList;
+    private static class CmdListDirectResult implements NormalizedResult {
+        private final CmdListDirect cmdList;
 
-        CmdListResult(CmdList cmdList) {
+        CmdListDirectResult(CmdListDirect cmdList) {
             this.cmdList = cmdList;
         }
 

@@ -1,9 +1,9 @@
 package org.dedee.recursiveroast.ui;
 
 import org.dedee.recursiveroast.Cmd;
-import org.dedee.recursiveroast.CmdList;
 import org.dedee.recursiveroast.Commands;
-import org.dedee.recursiveroast.LSystemEngine;
+import org.dedee.recursiveroast.ILSystemEngine;
+import org.dedee.recursiveroast.LSystemEngineFactory;
 import org.dedee.recursiveroast.LSystemModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,9 +24,9 @@ public class TurtleGraphics {
     private static final Logger logger = LoggerFactory.getLogger(TurtleGraphics.class);
 
     static Commands commands;
-    static CmdList cmdList;
+    static ILSystemEngine.NormalizedResult cmdList;
     static LSystemModel wpm;
-    static LSystemEngine wpe;
+    static ILSystemEngine wpe;
     static List<String> files;
     static String actualFile;
     private static TurtleCanvas canvas;
@@ -54,7 +54,8 @@ public class TurtleGraphics {
         f.setLayout(layout);
 
         wpm = new LSystemModel(commands);
-        wpe = new LSystemEngine(wpm);
+        //wpe = LSystemEngineFactory.createStandard(wpm);
+        wpe = LSystemEngineFactory.createDirect(wpm);
 
         canvas = new TurtleCanvas(new LSystemTurtleModel() {
             @Override
@@ -212,7 +213,7 @@ public class TurtleGraphics {
         wpm.load(in);
 
         textArea.setText(wpm.getLSystemAsString());
-        wpe = new LSystemEngine(wpm);
+        wpe = LSystemEngineFactory.createStandard(wpm);
 
         for (int i = 0; i < wpm.getRecursionDepth(); i++)
             wpe.calculateNext();

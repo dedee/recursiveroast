@@ -56,6 +56,13 @@ task runBenchmark(type: JavaExec) {
     mainClass = 'org.dedee.recursiveroast.performance.PerformanceBenchmark'
 }
 
+task runByteBufferBenchmark(type: JavaExec) {
+    group = 'verification'
+    description = 'Runs ByteBuffer comparison benchmark (byte[] vs DirectByteBuffer)'
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'org.dedee.recursiveroast.performance.ByteBufferBenchmark'
+}
+
 jar {
     manifest {
         attributes 'Main-Class': 'org.dedee.recursiveroast.ui.TurtleGraphics'
