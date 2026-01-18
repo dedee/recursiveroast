@@ -1,5 +1,8 @@
 package org.dedee.recursiveroast.ui;
 
+/**
+ * Interface for accessing L-System data for turtle graphics rendering.
+ */
 public interface LSystemTurtleModel {
     double getDegrees();
 

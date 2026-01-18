@@ -1,13 +1,21 @@
 package org.dedee.recursiveroast;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.List;
 
+/**
+ * A dynamic array of command IDs with efficient replacement operations.
+ * Used to store and manipulate L-System command sequences.
+ */
 public class CmdList {
+    private static final Logger logger = LoggerFactory.getLogger(CmdList.class);
 
     private static final float REALLOC_PERCENTAGE = 0.4f;
     private static final int INITIAL_SIZE = 3000;
-    int[] cmdIds;
-    int length;
+    private int[] cmdIds;
+    private int length;
 
     public CmdList(int initialLength) {
         cmdIds = new int[initialLength];
@@ -49,8 +57,8 @@ public class CmdList {
                     && k <= Commands.ID_USERDEFINED_MAX) {
 
                 for (CmdReplacement rep : replacements) {
-                    if (rep.what == k) {
-                        newList.append(rep.with);
+                    if (rep.getWhat() == k) {
+                        newList.append(rep.getWith());
                         break;
                     }
                 }
@@ -60,7 +68,7 @@ public class CmdList {
             }
         }
 
-        // System.out.println(this + "----> " + newList);
+        logger.debug("Replaced: {} -> {}", this, newList);
 
         return newList;
     }

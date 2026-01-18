@@ -1,11 +1,20 @@
 package org.dedee.recursiveroast.ui;
 
 import org.dedee.recursiveroast.Commands;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.geom.GeneralPath;
 import java.util.Stack;
 
+/**
+ * A turtle graphics implementation for rendering L-Systems.
+ * The turtle moves on a 2D plane, executing commands like forward, turn, push/pop position.
+ */
 public class Turtle {
+    private static final Logger logger = LoggerFactory.getLogger(Turtle.class);
+    private static final double DEFAULT_DISTANCE = 10.0;
+
     private final Stack<Pos> stackPositions;
     private final GeneralPath gp;
     private final Bounds bounds;
@@ -27,15 +36,16 @@ public class Turtle {
 
             switch (cmd) {
                 case Commands.ID_NOP -> {
+                    // No operation
                 }
-                case Commands.ID_FWD_PAINT -> move(10, true);
-                case Commands.ID_FWD_MOVE -> move(10, false);
+                case Commands.ID_FWD_PAINT -> move(DEFAULT_DISTANCE, true);
+                case Commands.ID_FWD_MOVE -> move(DEFAULT_DISTANCE, false);
                 case Commands.ID_TURN_LEFT -> turn(-turtleModel.getDegrees());
                 case Commands.ID_TURN_RIGHT -> turn(turtleModel.getDegrees());
                 case Commands.ID_PUSH -> push();
                 case Commands.ID_POP -> pop();
                 case Commands.ID_TURNAROUND -> turnaround();
-                default -> System.err.println("Ignoring command " + cmd);
+                default -> logger.warn("Ignoring unknown command: {}", cmd);
             }
         }
     }

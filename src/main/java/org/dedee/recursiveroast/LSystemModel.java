@@ -1,11 +1,20 @@
 package org.dedee.recursiveroast;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents an L-System model with rules, constants, and configuration.
+ * Parses L-System definitions from text and provides access to the system parameters.
+ */
 public class LSystemModel {
+    private static final Logger logger = LoggerFactory.getLogger(LSystemModel.class);
+
     private final List<List<CmdReplacement>> recursions;
     private final List<Cmd> constants;
     private int recursionDepth;
@@ -73,18 +82,18 @@ public class LSystemModel {
         switch (name) {
             case "rektiefe", "recursion" -> {
                 recursionDepth = Integer.parseInt(value);
-                System.out.println("rec depth: " + recursionDepth);
+                logger.info("Recursion depth: {}", recursionDepth);
             }
             case "winkel", "angle" -> {
                 angle = Double.parseDouble(value);
-                System.out.println("angle: " + angle);
+                logger.info("Angle: {}", angle);
             }
             case "initialangle" -> {
                 initialAngle = Double.parseDouble(value);
-                System.out.println("initialangle: " + initialAngle);
+                logger.info("Initial angle: {}", initialAngle);
             }
             default -> {
-                System.out.println(name + ": " + value);
+                logger.info("User-defined constant {}: {}", name, value);
                 if (name.length() > 1)
                     throw new IOException("name '" + name + "' is too long");
                 constants.add(Commands.getInstance().createUserDefinedCommand(
@@ -110,7 +119,7 @@ public class LSystemModel {
 
     private void addRule(int recursionDepth, char name, String value)
             throws IOException {
-        System.out.println(recursionDepth + " : " + name + " = " + value);
+        logger.info("Rule {} : {} = {}", recursionDepth, name, value);
 
         int[] with = new int[value.length()];
         for (int i = 0; i < value.length(); i++) {
@@ -160,12 +169,13 @@ public class LSystemModel {
             List<CmdReplacement> list = recursions.get(i);
             if (list != null) {
                 for (CmdReplacement cpr : list) {
-                    sb.append(i).append(": ").append(Commands.getInstance().idToChar(cpr.what));
+                    sb.append(i).append(": ").append(Commands.getInstance().idToChar(cpr.getWhat()));
                     sb.append(" = ");
-                    if (cpr.with != null) {
-                        for (int j = 0; j < cpr.with.length; j++)
+                    int[] with = cpr.getWith();
+                    if (with != null) {
+                        for (int j = 0; j < with.length; j++)
                             sb.append(Commands.getInstance().idToChar(
-                                    cpr.with[j]));
+                                    with[j]));
                     }
                     sb.append("\n");
                 }

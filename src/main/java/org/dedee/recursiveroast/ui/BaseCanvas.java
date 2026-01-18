@@ -15,6 +15,11 @@ public abstract class BaseCanvas extends Canvas {
 
     public abstract void paintRecursionLevel(Graphics2D g2);
 
+    private static final double BORDER_PERCENTAGE = 0.05;
+    private static final int DEFAULT_WIDTH = 500;
+    private static final int DEFAULT_HEIGHT = 400;
+
+    @Override
     public void paint(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
 
@@ -25,10 +30,10 @@ public abstract class BaseCanvas extends Canvas {
                 RenderingHints.VALUE_RENDER_QUALITY);
         g2.setRenderingHints(qualityHints);
 
-        g2.setColor(Color.lightGray);
+        g2.setColor(Color.LIGHT_GRAY);
         paintLSystemText(g2);
         paintRecursionLevel(g2);
-        g2.setColor(Color.black);
+        g2.setColor(Color.BLACK);
 
         GeneralPath gp = new GeneralPath();
         gp.moveTo(0, 0);
@@ -38,9 +43,8 @@ public abstract class BaseCanvas extends Canvas {
         Rectangle2D boundsPath = gp.getBounds2D();
         Rectangle boundsCanvas = getBounds();
 
-        double borderPerCent = 0.05;
-        double bx = boundsPath.getWidth() * borderPerCent;
-        double by = boundsPath.getHeight() * borderPerCent;
+        double bx = boundsPath.getWidth() * BORDER_PERCENTAGE;
+        double by = boundsPath.getHeight() * BORDER_PERCENTAGE;
 
         double zoomX = boundsCanvas.getWidth()
                 / (boundsPath.getWidth() + bx * 2);
@@ -58,6 +62,6 @@ public abstract class BaseCanvas extends Canvas {
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(500, 400);
+        return new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
     }
 }

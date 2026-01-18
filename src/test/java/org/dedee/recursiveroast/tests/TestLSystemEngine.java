@@ -4,6 +4,8 @@ import org.dedee.recursiveroast.CmdList;
 import org.dedee.recursiveroast.LSystemEngine;
 import org.dedee.recursiveroast.LSystemModel;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -12,6 +14,7 @@ import java.io.FileReader;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestLSystemEngine {
+    private static final Logger logger = LoggerFactory.getLogger(TestLSystemEngine.class);
 
     @Test
     public void testSimple() throws Exception {
@@ -66,8 +69,8 @@ public class TestLSystemEngine {
             wpe.calculateNext();
 
         CmdList l = wpe.normalize();
-        System.out.println(l.length());
-        System.out.println(l);
+        logger.info("Result length: {}", l.length());
+        logger.info("Result: {}", l);
     }
 
 }

@@ -1,8 +1,16 @@
 package org.dedee.recursiveroast;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.List;
 
+/**
+ * Engine for computing L-System iterations.
+ * Takes an L-System model and generates command sequences at different recursion levels.
+ */
 public class LSystemEngine {
+    private static final Logger logger = LoggerFactory.getLogger(LSystemEngine.class);
 
     private final LSystemModel model;
     private CmdList value;
@@ -16,7 +24,7 @@ public class LSystemEngine {
     private void reset() {
         recursionLevel = 0;
         if (model.getRecursionData(0) != null)
-            value = new CmdList(model.getRecursionData(0).get(0).with);
+            value = new CmdList(model.getRecursionData(0).get(0).getWith());
     }
 
     public CmdList normalize() {
@@ -59,7 +67,7 @@ public class LSystemEngine {
         }
 
         value = value.replace(recursionData);
-        // System.err.println("=FREEMEM=> "+Runtime.getRuntime().freeMemory()/1000+" kB");
+        logger.debug("Free memory after recursion: {} kB", Runtime.getRuntime().freeMemory() / 1000);
     }
 
     public void calculatePrevious() {

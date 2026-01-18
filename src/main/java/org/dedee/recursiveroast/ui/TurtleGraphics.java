@@ -4,6 +4,8 @@ import org.dedee.recursiveroast.Cmd;
 import org.dedee.recursiveroast.CmdList;
 import org.dedee.recursiveroast.LSystemEngine;
 import org.dedee.recursiveroast.LSystemModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -12,7 +14,13 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Main application class for the L-System turtle graphics viewer.
+ * Provides a GUI for loading, viewing, and manipulating L-System fractals.
+ */
 public class TurtleGraphics {
+    private static final Logger logger = LoggerFactory.getLogger(TurtleGraphics.class);
+
     static CmdList cmdList;
     static LSystemModel wpm;
     static LSystemEngine wpe;
@@ -80,7 +88,7 @@ public class TurtleGraphics {
         for (String file : files)
             choice.add(file);
         choice.addItemListener(e -> {
-            System.out.println("Selected " + e);
+            logger.debug("Selected file: {}", e);
             String filename = (String) e.getItem();
             loadFile(filename);
         });
@@ -143,7 +151,7 @@ public class TurtleGraphics {
         List<String> files = new ArrayList<>();
         try (InputStream in = TurtleGraphics.class.getResourceAsStream("/files/index.txt")) {
             if (in == null) {
-                System.err.println("Could not find /files/index.txt in resources");
+                logger.error("Could not find /files/index.txt in resources");
                 return files;
             }
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
@@ -156,16 +164,16 @@ public class TurtleGraphics {
                 }
             }
         } catch (IOException e) {
-            System.err.println("Error reading index.txt: " + e.getMessage());
+            logger.error("Error reading index.txt: {}", e.getMessage());
         }
         return files;
     }
 
     private static void loadFile(String filename) {
-        System.err.println("Loading " + filename);
+        logger.info("Loading L-System file: {}", filename);
         try (InputStream in = TurtleGraphics.class.getResourceAsStream("/files/" + filename)) {
             if (in == null) {
-                System.err.println("File not found in resources: " + filename);
+                logger.error("File not found in resources: {}", filename);
                 return;
             }
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
@@ -176,17 +184,17 @@ public class TurtleGraphics {
                 }
             }
         } catch (IOException e1) {
-            System.err.println("Error loading file " + filename + ": " + e1.getMessage());
+            logger.error("Error loading file {}: {}", filename, e1.getMessage());
         }
     }
 
     private static void loadFromText(String text) {
-        System.err.println("Reloading from text..");
+        logger.info("Reloading L-System from text editor");
         try {
             BufferedReader in = new BufferedReader(new StringReader(text));
             load(in);
         } catch (IOException e1) {
-            System.err.println("Error loading from text: " + e1.getMessage());
+            logger.error("Error loading from text: {}", e1.getMessage());
         }
     }
 

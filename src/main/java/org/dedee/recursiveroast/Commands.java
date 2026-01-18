@@ -78,8 +78,12 @@ public class Commands {
         return instance;
     }
 
+    /**
+     * Resets the singleton instance to a fresh state.
+     * WARNING: This is a workaround for testing. In production code,
+     * consider using dependency injection instead of singleton pattern.
+     */
     public void reset() {
-        // ugly ugly stuff ;)
         instance = new Commands();
     }
 

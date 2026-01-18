@@ -3,11 +3,12 @@ package org.dedee.recursiveroast.ui;
 import java.awt.*;
 import java.awt.geom.GeneralPath;
 
-
+/**
+ * Canvas for rendering L-Systems using turtle graphics.
+ */
 public class TurtleCanvas extends BaseCanvas {
 
-
-    LSystemTurtleModel turtleModel;
+    private final LSystemTurtleModel turtleModel;
 
     public TurtleCanvas(LSystemTurtleModel turtleModel) {
         this.turtleModel = turtleModel;
