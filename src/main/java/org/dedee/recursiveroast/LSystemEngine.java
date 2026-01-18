@@ -34,7 +34,9 @@ public class LSystemEngine {
         if (value == null)
             return null;
 
-        CmdList newList = new CmdList(value.length());
+        // Pre-calculate better capacity estimate to avoid reallocations
+        int estimatedSize = (int) (value.length() * 1.2);
+        CmdList newList = new CmdList(estimatedSize);
 
         for (int i = 0; i < value.length(); i++) {
             int cmd = value.get(i);
@@ -48,7 +50,7 @@ public class LSystemEngine {
             }
         }
 
-        // System.out.println("NORM => " + newList);
+        logger.debug("Normalized command list: {}", newList);
         return newList;
     }
 

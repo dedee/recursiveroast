@@ -3,7 +3,9 @@ package org.dedee.recursiveroast;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A dynamic array of command IDs with efficient replacement operations.
@@ -48,23 +50,34 @@ public class CmdList {
     }
 
     public CmdList replace(List<CmdReplacement> replacements) {
-        CmdList newList = new CmdList(INITIAL_SIZE);
+        // Build a HashMap for O(1) lookup instead of O(m) linear search
+        Map<Integer, int[]> replacementMap = new HashMap<>(replacements.size());
+        int totalReplacementSize = 0;
+
+        for (CmdReplacement rep : replacements) {
+            replacementMap.put(rep.getWhat(), rep.getWith());
+            if (rep.getWith() != null) {
+                totalReplacementSize += rep.getWith().length;
+            }
+        }
+
+        // Estimate new size: assume average expansion factor
+        int estimatedSize = Math.max(INITIAL_SIZE, (int) (length * 1.5 + totalReplacementSize));
+        CmdList newList = new CmdList(estimatedSize);
 
         for (int i = 0; i < length; i++) {
-
             int k = Cmd.getId(cmdIds[i]);
-            if (k >= Commands.ID_USERDEFINED_MIN
-                    && k <= Commands.ID_USERDEFINED_MAX) {
 
-                for (CmdReplacement rep : replacements) {
-                    if (rep.getWhat() == k) {
-                        newList.append(rep.getWith());
-                        break;
-                    }
+            if (k >= Commands.ID_USERDEFINED_MIN && k <= Commands.ID_USERDEFINED_MAX) {
+                int[] replacement = replacementMap.get(k);
+                if (replacement != null) {
+                    newList.append(replacement);
+                } else {
+                    // No replacement found, keep original command
+                    newList.append(cmdIds[i]);
                 }
             } else {
-                int cmd = cmdIds[i];
-                newList.append(cmd);
+                newList.append(cmdIds[i]);
             }
         }
 
@@ -82,7 +95,7 @@ public class CmdList {
     }
 
     public String toString(Commands commands) {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(length);  // Pre-allocate capacity
         for (int i = 0; i < length; i++) {
             sb.append(commands.idToChar(Cmd.getId(cmdIds[i])));
         }

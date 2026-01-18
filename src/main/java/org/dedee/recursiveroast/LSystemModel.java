@@ -91,18 +91,18 @@ public class LSystemModel {
         switch (name) {
             case "rektiefe", "recursion" -> {
                 recursionDepth = Integer.parseInt(value);
-                logger.info("Recursion depth: {}", recursionDepth);
+                logger.debug("Recursion depth: {}", recursionDepth);
             }
             case "winkel", "angle" -> {
                 angle = Double.parseDouble(value);
-                logger.info("Angle: {}", angle);
+                logger.debug("Angle: {}", angle);
             }
             case "initialangle" -> {
                 initialAngle = Double.parseDouble(value);
-                logger.info("Initial angle: {}", initialAngle);
+                logger.debug("Initial angle: {}", initialAngle);
             }
             default -> {
-                logger.info("User-defined constant {}: {}", name, value);
+                logger.debug("User-defined constant {}: {}", name, value);
                 if (name.length() > 1)
                     throw new IOException("name '" + name + "' is too long");
                 constants.add(commands.createUserDefinedCommand(
@@ -128,7 +128,7 @@ public class LSystemModel {
 
     private void addRule(int recursionDepth, char name, String value)
             throws IOException {
-        logger.info("Rule {} : {} = {}", recursionDepth, name, value);
+        logger.debug("Rule {} : {} = {}", recursionDepth, name, value);
 
         int[] with = new int[value.length()];
         for (int i = 0; i < value.length(); i++) {

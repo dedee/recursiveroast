@@ -49,6 +49,13 @@ test {
     useJUnitPlatform()
 }
 
+task runBenchmark(type: JavaExec) {
+    group = 'verification'
+    description = 'Runs the performance benchmark'
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'org.dedee.recursiveroast.performance.PerformanceBenchmark'
+}
+
 jar {
     manifest {
         attributes 'Main-Class': 'org.dedee.recursiveroast.ui.TurtleGraphics'
