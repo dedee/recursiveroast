@@ -1,17 +1,23 @@
 package org.dedee.recursiveroast;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.HashMap;
 
 /**
+ * Command registry for L-System turtle graphics commands.
+ * Manages both built-in commands (forward, turn, push, pop, etc.) and user-defined commands.
+ *
  * <pre>
- *  F                Vorwaerts mit Zeichnen
- * 	f                Vorwaerts ohne Zeichnen
- * 	+                Linksdrehung (in math. pos. Richtung)
- * 	-                Rechtsdrehung (in math. neg. Richtung)
- *  |                180 Turn around
- * 	[                Push die Schildkroete
- * 	]                Pop die Schildkroete
- * 	w(aa)            Drehwinkelaenderung
+ *  F                Vorwaerts mit Zeichnen (Forward with drawing)
+ * 	f                Vorwaerts ohne Zeichnen (Forward without drawing)
+ * 	+                Linksdrehung (Turn left - math. positive direction)
+ * 	-                Rechtsdrehung (Turn right - math. negative direction)
+ *  |                180° Turn around
+ * 	[                Push die Schildkroete (Push turtle state)
+ * 	]                Pop die Schildkroete (Pop turtle state)
+ * 	w(aa)            Drehwinkelaenderung (Change angle)
  * 	+(xx,aa,bb)      Um zufaelligen Winkel aa oder bb drehen, xx=WS [%]
  * 	-(xx,aa,bb)      Um zufaelligen Winkel aa oder bb drehen, xx=WS [%]
  * 	x(xx,mm,nn)      Zufaellig zwischen zwei Befehlsstrings auswaehlen
@@ -31,14 +37,15 @@ public class Commands {
     public final static int ID_USERDEFINED_MIN = 9;
     public final static int ID_USERDEFINED_MAX = 15;
 
-    private static Commands instance = new Commands();
-
     private final Cmd[] commands;
     private final HashMap<Character, Cmd> nameMap;
     private final HashMap<Integer, Character> nameMapReverse;
     private int numberOfUserDefinedCommands;
 
-    private Commands() {
+    /**
+     * Creates a new Commands registry with all built-in commands initialized.
+     */
+    public Commands() {
         commands = new Cmd[ID_USERDEFINED_MAX + 1];
 
         commands[ID_BASE] = new Cmd(ID_BASE);
@@ -74,20 +81,9 @@ public class Commands {
         nameMapReverse.put(ID_NOP, '.');
     }
 
-    public static Commands getInstance() {
-        return instance;
-    }
 
-    /**
-     * Resets the singleton instance to a fresh state.
-     * WARNING: This is a workaround for testing. In production code,
-     * consider using dependency injection instead of singleton pattern.
-     */
-    public void reset() {
-        instance = new Commands();
-    }
-
-    public Cmd createUserDefinedCommand(char name, String value) {
+    @NotNull
+    public Cmd createUserDefinedCommand(char name, @NotNull String value) {
         value = value.trim();
         int[] subcmds = new int[value.length()];
         for (int i = 0; i < value.length(); i++) {
@@ -103,14 +99,17 @@ public class Commands {
         return commands[idx];
     }
 
+    @NotNull
     public Cmd get(int id) {
         return commands[Cmd.getId(id)];
     }
 
+    @Nullable
     public Cmd get(char name) {
         return nameMap.get(name);
     }
 
+    @Nullable
     public Character idToChar(int id) {
         return nameMapReverse.get(Cmd.getId(id));
     }

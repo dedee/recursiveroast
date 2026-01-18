@@ -1,11 +1,14 @@
 package org.dedee.recursiveroast;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * Represents a command in an L-System with an ID and optional parameter values.
  */
 public class Cmd {
 
     private final int id;
+    @Nullable
     private final int[] values;
 
     public Cmd(int id) {
@@ -13,7 +16,7 @@ public class Cmd {
         this.values = null;
     }
 
-    public Cmd(int id, int[] values) {
+    public Cmd(int id, @Nullable int[] values) {
         this.id = id;
         this.values = values;
     }
@@ -33,6 +36,13 @@ public class Cmd {
         return id;
     }
 
+    /**
+     * Returns the values array.
+     * Note: The returned array should not be modified by callers.
+     *
+     * @return the values array, or null if no values are set
+     */
+    @Nullable
     public int[] getValues() {
         return values;
     }

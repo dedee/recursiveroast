@@ -2,6 +2,7 @@ package org.dedee.recursiveroast.ui;
 
 import org.dedee.recursiveroast.Cmd;
 import org.dedee.recursiveroast.CmdList;
+import org.dedee.recursiveroast.Commands;
 import org.dedee.recursiveroast.LSystemEngine;
 import org.dedee.recursiveroast.LSystemModel;
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -21,6 +23,7 @@ import java.util.List;
 public class TurtleGraphics {
     private static final Logger logger = LoggerFactory.getLogger(TurtleGraphics.class);
 
+    static Commands commands;
     static CmdList cmdList;
     static LSystemModel wpm;
     static LSystemEngine wpe;
@@ -33,6 +36,9 @@ public class TurtleGraphics {
     public static void main(String[] args) throws Exception {
 
         files = listFiles();
+
+        // Create Commands instance (Dependency Injection)
+        commands = new Commands();
 
         Frame f = new Frame("TurtleGraphics");
         f.addWindowListener(new WindowAdapter() {
@@ -47,7 +53,7 @@ public class TurtleGraphics {
         layout.setVgap(10);
         f.setLayout(layout);
 
-        wpm = new LSystemModel();
+        wpm = new LSystemModel(commands);
         wpe = new LSystemEngine(wpm);
 
         canvas = new TurtleCanvas(new LSystemTurtleModel() {
@@ -152,7 +158,7 @@ public class TurtleGraphics {
         try (InputStream in = TurtleGraphics.class.getResourceAsStream("/files/index.txt")) {
             if (in == null) {
                 logger.error("Could not find /files/index.txt in resources");
-                return files;
+                return Collections.emptyList();
             }
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
                 String line;
@@ -165,8 +171,9 @@ public class TurtleGraphics {
             }
         } catch (IOException e) {
             logger.error("Error reading index.txt: {}", e.getMessage());
+            return Collections.emptyList();
         }
-        return files;
+        return Collections.unmodifiableList(files);
     }
 
     private static void loadFile(String filename) {
@@ -199,7 +206,9 @@ public class TurtleGraphics {
     }
 
     private static void load(BufferedReader in) throws IOException {
-        wpm = new LSystemModel();
+        // Create new Commands instance for fresh L-System
+        commands = new Commands();
+        wpm = new LSystemModel(commands);
         wpm.load(in);
 
         textArea.setText(wpm.getLSystemAsString());

@@ -81,12 +81,18 @@ public class CmdList {
         return length;
     }
 
-    public String toString() {
+    public String toString(Commands commands) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < length; i++) {
-            sb.append(Commands.getInstance().idToChar(Cmd.getId(cmdIds[i])));
+            sb.append(commands.idToChar(Cmd.getId(cmdIds[i])));
         }
         return sb.toString();
+    }
+
+    @Override
+    public String toString() {
+        // For backward compatibility when commands instance is not available
+        return "CmdList[length=" + length + "]";
     }
 
 }

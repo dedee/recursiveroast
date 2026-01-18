@@ -1,11 +1,14 @@
 package org.dedee.recursiveroast;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -15,16 +18,21 @@ import java.util.List;
 public class LSystemModel {
     private static final Logger logger = LoggerFactory.getLogger(LSystemModel.class);
 
+    private final Commands commands;
     private final List<List<CmdReplacement>> recursions;
     private final List<Cmd> constants;
     private int recursionDepth;
     private double initialAngle;
     private double angle;
 
-    public LSystemModel() {
-        Commands.getInstance().reset();
+    public LSystemModel(Commands commands) {
+        this.commands = commands;
         recursions = new ArrayList<>();
         constants = new ArrayList<>();
+    }
+
+    public Commands getCommands() {
+        return commands;
     }
 
     public int getRecursionDepth() {
@@ -38,10 +46,11 @@ public class LSystemModel {
     public List<CmdReplacement> getRecursionData(int recursionLevel) {
         if (recursionLevel >= recursions.size())
             return null;
-        return recursions.get(recursionLevel);
+        List<CmdReplacement> data = recursions.get(recursionLevel);
+        return data != null ? Collections.unmodifiableList(data) : null;
     }
 
-    public void load(BufferedReader in) throws IOException {
+    public void load(@NotNull BufferedReader in) throws IOException {
         String line;
 
         while ((line = in.readLine()) != null) {
@@ -96,7 +105,7 @@ public class LSystemModel {
                 logger.info("User-defined constant {}: {}", name, value);
                 if (name.length() > 1)
                     throw new IOException("name '" + name + "' is too long");
-                constants.add(Commands.getInstance().createUserDefinedCommand(
+                constants.add(commands.createUserDefinedCommand(
                         name.charAt(0), value));
             }
         }
@@ -125,18 +134,18 @@ public class LSystemModel {
         for (int i = 0; i < value.length(); i++) {
 
             char ch = value.charAt(i);
-            Cmd cmd = Commands.getInstance().get(ch);
+            Cmd cmd = commands.get(ch);
             if (cmd == null)
                 throw new IOException("cmd '" + ch + "' is not defined");
 
-            with[i] = Commands.getInstance().get(value.charAt(i)).getId();
+            with[i] = commands.get(value.charAt(i)).getId();
         }
 
-        if (Commands.getInstance().get(name) == null)
+        if (commands.get(name) == null)
             throw new IOException("command with name '" + name
                     + "' not defined?");
 
-        CmdReplacement cpr = new CmdReplacement(Commands.getInstance()
+        CmdReplacement cpr = new CmdReplacement(commands
                 .get(name).getId(), with);
 
         List<CmdReplacement> listOfRecursion = null;
@@ -158,10 +167,10 @@ public class LSystemModel {
         sb.append("recursion = ").append(getRecursionDepth()).append("\n");
 
         for (Cmd cmd : constants) {
-            sb.append(Commands.getInstance().idToChar(cmd.getId()));
+            sb.append(commands.idToChar(cmd.getId()));
             sb.append(" = ");
             for (int what : cmd.getValues())
-                sb.append(Commands.getInstance().idToChar(what));
+                sb.append(commands.idToChar(what));
             sb.append("\n");
         }
 
@@ -169,12 +178,12 @@ public class LSystemModel {
             List<CmdReplacement> list = recursions.get(i);
             if (list != null) {
                 for (CmdReplacement cpr : list) {
-                    sb.append(i).append(": ").append(Commands.getInstance().idToChar(cpr.getWhat()));
+                    sb.append(i).append(": ").append(commands.idToChar(cpr.getWhat()));
                     sb.append(" = ");
                     int[] with = cpr.getWith();
                     if (with != null) {
                         for (int j = 0; j < with.length; j++)
-                            sb.append(Commands.getInstance().idToChar(
+                            sb.append(commands.idToChar(
                                     with[j]));
                     }
                     sb.append("\n");

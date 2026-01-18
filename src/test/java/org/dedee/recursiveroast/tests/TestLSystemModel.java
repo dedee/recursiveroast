@@ -1,5 +1,6 @@
 package org.dedee.recursiveroast.tests;
 
+import org.dedee.recursiveroast.Commands;
 import org.dedee.recursiveroast.LSystemModel;
 import org.junit.jupiter.api.Test;
 
@@ -28,8 +29,9 @@ public class TestLSystemModel {
 
     @Test
     public void testOne() throws Exception {
+        Commands commands = new Commands();
         File file = createTempFile(SIMPLE);
-        LSystemModel wpm = new LSystemModel();
+        LSystemModel wpm = new LSystemModel(commands);
         wpm.load(new BufferedReader(new FileReader(file)));
 
         assertEquals(1, wpm.getRecursionDepth());

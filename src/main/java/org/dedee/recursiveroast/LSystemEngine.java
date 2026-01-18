@@ -1,5 +1,7 @@
 package org.dedee.recursiveroast;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,7 +18,7 @@ public class LSystemEngine {
     private CmdList value;
     private int recursionLevel;
 
-    public LSystemEngine(LSystemModel model) {
+    public LSystemEngine(@NotNull LSystemModel model) {
         this.model = model;
         reset();
     }
@@ -27,6 +29,7 @@ public class LSystemEngine {
             value = new CmdList(model.getRecursionData(0).get(0).getWith());
     }
 
+    @Nullable
     public CmdList normalize() {
         if (value == null)
             return null;
@@ -38,7 +41,7 @@ public class LSystemEngine {
             int id = Cmd.getId(cmd);
             if (id >= Commands.ID_USERDEFINED_MIN
                     && id <= Commands.ID_USERDEFINED_MAX) {
-                int[] values = Commands.getInstance().get(id).getValues();
+                int[] values = model.getCommands().get(id).getValues();
                 newList.append(values);
             } else {
                 newList.append(cmd);

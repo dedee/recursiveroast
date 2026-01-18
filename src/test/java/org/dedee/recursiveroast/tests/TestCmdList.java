@@ -43,7 +43,8 @@ public class TestCmdList {
 
     @Test
     public void testReplace() {
-        Commands.getInstance().createUserDefinedCommand('R', "F");
+        Commands commands = new Commands();
+        commands.createUserDefinedCommand('R', "F");
 
         CmdList cmdList = new CmdList(1);
         cmdList.append(Commands.ID_FWD_MOVE);
