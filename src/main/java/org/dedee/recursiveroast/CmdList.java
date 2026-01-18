@@ -16,22 +16,25 @@ public class CmdList {
 
     private static final float REALLOC_PERCENTAGE = 0.4f;
     private static final int INITIAL_SIZE = 3000;
-    private int[] cmdIds;
+    private byte[] cmdIds;  // Changed from int[] to byte[] - IDs are 0-15, saves 75% memory
     private int length;
 
     public CmdList(int initialLength) {
-        cmdIds = new int[initialLength];
+        cmdIds = new byte[initialLength];
         length = 0;
     }
 
     public CmdList(int[] cmdIds) {
-        this.cmdIds = cmdIds;
+        this.cmdIds = new byte[cmdIds.length];
+        for (int i = 0; i < cmdIds.length; i++) {
+            this.cmdIds[i] = (byte) cmdIds[i];
+        }
         this.length = cmdIds.length;
     }
 
     private void ensure(int cnt) {
         if (cnt + length > cmdIds.length) {
-            int[] newCmdIds = new int[(int) (cmdIds.length + cnt + cmdIds.length
+            byte[] newCmdIds = new byte[(int) (cmdIds.length + cnt + cmdIds.length
                     * REALLOC_PERCENTAGE)];
             System.arraycopy(cmdIds, 0, newCmdIds, 0, length);
             cmdIds = newCmdIds;
@@ -40,12 +43,14 @@ public class CmdList {
 
     public void append(int id) {
         ensure(1);
-        cmdIds[length++] = id;
+        cmdIds[length++] = (byte) id;
     }
 
     public void append(int[] ids) {
         ensure(ids.length);
-        System.arraycopy(ids, 0, cmdIds, length, ids.length);
+        for (int i = 0; i < ids.length; i++) {
+            cmdIds[length + i] = (byte) ids[i];
+        }
         length += ids.length;
     }
 
@@ -66,7 +71,7 @@ public class CmdList {
         CmdList newList = new CmdList(estimatedSize);
 
         for (int i = 0; i < length; i++) {
-            int k = Cmd.getId(cmdIds[i]);
+            int k = Cmd.getId(cmdIds[i] & 0xFF);  // Convert byte to unsigned int
 
             if (k >= Commands.ID_USERDEFINED_MIN && k <= Commands.ID_USERDEFINED_MAX) {
                 int[] replacement = replacementMap.get(k);
@@ -74,10 +79,10 @@ public class CmdList {
                     newList.append(replacement);
                 } else {
                     // No replacement found, keep original command
-                    newList.append(cmdIds[i]);
+                    newList.append(cmdIds[i] & 0xFF);
                 }
             } else {
-                newList.append(cmdIds[i]);
+                newList.append(cmdIds[i] & 0xFF);
             }
         }
 
@@ -87,7 +92,7 @@ public class CmdList {
     }
 
     public int get(int i) {
-        return cmdIds[i];
+        return cmdIds[i] & 0xFF;  // Convert byte to unsigned int
     }
 
     public int length() {
@@ -97,7 +102,7 @@ public class CmdList {
     public String toString(Commands commands) {
         StringBuilder sb = new StringBuilder(length);  // Pre-allocate capacity
         for (int i = 0; i < length; i++) {
-            sb.append(commands.idToChar(Cmd.getId(cmdIds[i])));
+            sb.append(commands.idToChar(Cmd.getId(cmdIds[i] & 0xFF)));
         }
         return sb.toString();
     }
